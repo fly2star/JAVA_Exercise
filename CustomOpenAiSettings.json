@@ -1,0 +1,10 @@
+[{"id":"5a105d50-0cb7-4149-9bcc-5fdd835d2a06","name":"DeepSeek-V3","template":"OPENAI","apiKey":"","chatCompletionSettings":{"url":"https://api.deepseek.com/v1/chat/completions","headers":{"Authorization":"Bearer $CUSTOM_SERVICE_API_KEY","X-LLM-Application-Tag":"proxyai","Content-Type":"application/json"},"body":{"max_tokens":8192,"stream":true,"temperature":0.1,"messages":"$OPENAI_MESSAGES","model":"deepseek-chat"}},"codeCompletionSettings":{"codeCompletionsEnabled":true,"parseResponseAsChatCompletions":true,"infillTemplate":"DEEPSEEK_CODER","url":"https://api.deepseek.com/v1/chat/completions","headers":{"Authorization":"Bearer $CUSTOM_SERVICE_API_KEY","X-LLM-Application-Tag":"proxyai","Content-Type":"application/json"},"body":{"max_tokens":24,"stream":true,"temperature":0.2,"messages":""messages": [
+    {
+      "content": "You are a helpful assistant",
+      "role": "system"
+    },
+    {
+      "content": "Hi",
+      "role": "user"
+    }
+  ]","model":"deepseek-chat","suffix":"$SUFFIX","prompt":"$PREFIX"}}}]
