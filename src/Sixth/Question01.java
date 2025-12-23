@@ -21,7 +21,8 @@ public class Question01 {
         System.out.println(getDescentPeriods( prices));
         System.out.println(getDescentPeriods2( prices2));
     }
-
+    // 方法一: 统计数组中的最长递减光滑子数组的个数
+    //          一个长度恒定的最长光滑子数组, 可以表示恒定个数个连续递减子数组
     public static long getDescentPeriods(int[] prices) {
         int n = prices.length;
         long res = 0;
@@ -45,15 +46,21 @@ public class Question01 {
 
     }
 
+    // 方法二: 在遍历 prices 的同时，统计当前这段连续递减的长度 dec，那么右端点为 i 的连续递减子数组个数就是 dec，加到答案中
+    //              如果 prices[i] = prices[i - 1] - 1, 连续递减, dec 增加一
+    //              否则没连续递减中断, dec 重置为 1
     public static long getDescentPeriods2(int[] prices) {
         long ans = 0;
         int des = 0;
         for (int i = 0; i < prices.length; i++) {
             if (i > 0 && prices[i] == prices[i - 1] - 1) {
+                // 连续递减
                 des++;
             } else {
+                // 连续递减中断, 重置为 1
                 des = 1;
             }
+            // 右端点为 i 的连续递减子数组个数就是 des, 加到答案中
             ans += des;
         }
 

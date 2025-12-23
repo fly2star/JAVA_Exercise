@@ -5,6 +5,10 @@ package LeetCode_Hot100;
  * @version 1.0
  * create 2025-12-16-17:15
  **/
+/*
+148. 排序链表
+给你链表的头结点 head , 请将其按 升序 排列并返回 排序后的链表 。
+*/
 public class question017 {
     public static void main(String[] args) {
         ListNode head = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3, null))));
@@ -22,6 +26,7 @@ public class question017 {
         }
     }
 
+    // 方法1: 插入排序
     public static ListNode sortList(ListNode head) {
         if (head == null || head.next == null) return head;
         ListNode newHead = head;
@@ -45,6 +50,7 @@ public class question017 {
         return newHead;
     }
 
+    // 方法2: 归并排序
     public ListNode sortList2(ListNode head) {
         return sortList(head, null);
     }
