@@ -1,0 +1,41 @@
+package Fifth;
+
+/**
+ * @author ccwwll
+ * @version 1.0
+ * create 2025-12-10-21:24
+ **/
+public class Question03 {
+    public static void main(String[] args) {
+
+    }
+
+    public static int f712(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        // j=0 的情况: s2 为空串, 删除 s1 中所有的字符串
+        for (int i = 1; i <= m; i++) {
+            dp[i][0] = dp[i - 1][0] + s1.codePointAt(i - 1);
+        }
+        // i=0 的情况: s1 为空串, 删除 s2 中所有的字符串
+        for (int j = 1; j <= n; j++) {
+            dp[0][j] = dp[0][j - 1] + s2.codePointAt(j - 1);
+        }
+        // i>0, j>0 的情况
+        for (int i = 1; i <= m; i++) {
+            int code1 = s1.codePointAt(i - 1);
+            for (int j = 1; j <= n; j++) {
+                int code2 = s2.codePointAt(j - 1);
+                // 如果两个字符相等, 最小ASCII删除和不变
+                if (code1 == code2) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    // 如果两个字符不相等, 比较两种情况
+                    // 1. 使s1[0:i-1]
+                    dp[i][j] = Math.min(dp[i - 1][j] + code1, dp[i][j - 1] + code2);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
