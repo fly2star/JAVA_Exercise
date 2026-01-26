@@ -10,14 +10,6 @@ import java.util.Set;
  * @version 1.0
  * create 2026-01-26-20:23
  **/
-/*
-448. 找到所有数组中消失的数字
-
-给你一个含 `n` 个整数的数组 `nums`，其中 `nums[i]` 在区间 `[1, n]` 内。
-
-请你找出所有在 `[1, n]` 范围内但没有出现在 `nums` 中的数字，并以数组的形式返回结果。
-
-*/
 public class question0029 {
     public static void main(String[] args) {
         int[] nums = {4, 3, 2, 7, 8, 2, 3, 1};
