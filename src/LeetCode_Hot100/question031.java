@@ -82,10 +82,11 @@ public class question031 {
 
         // 查找满足条件的路劲数
         // 如果 currSum - targetSum = 某个历史前缀和，说明找到了一段满足条件的路径
+        // Map.getOrDefault(key, defaultValue): 如果 key 存在，返回对应的 value；否则返回 defaultValue
         int count = map.getOrDefault(currSum - targetSum, 0);
 
         // 将当前前缀和存入 Map. 供子节点使用
-        map.put(currSum, map.getOrDefault(currSum, 1) + 1);
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
 
         // 递归左右子树
         count += dfs2(node.left, currSum, targetSum, map);
@@ -96,4 +97,34 @@ public class question031 {
 
         return count;
     }
+
+    // 方法 3: 前缀和 + 哈希表 (优化版)
+    public static int pathSum3(TreeNode root, int targetSum) {
+        // key：从根到 node 的节点值之和
+        // value：节点值之和的出现次数
+        // 注意在递归过程中，哈希表只保存根到 node 的路径的前缀的节点值之和
+        Map<Long, Integer> cnt = new HashMap<>();
+        cnt.put(0L, 1);
+        return dfs3(root, 0, targetSum, cnt);
+    }
+
+    // s 表示从根到 node 的父节点的节点值之和（node 的节点值尚未计入）
+    // 返回在 node 子树中找到了多少个以 x 结尾的符合要求的路径，其中节点 x 是 node 子树中的节点
+    private static int dfs3(TreeNode node, long s, int targetSum, Map<Long, Integer> cnt) {
+        if (node == null) {
+            return 0;
+        }
+
+        s += node.val;
+        // 把 node 当作路径的终点，统计有多少个起点
+        int ans = cnt.getOrDefault(s - targetSum, 0);
+
+        cnt.merge(s, 1, Integer::sum); // cnt[s]++
+        ans += dfs3(node.left, s, targetSum, cnt);
+        ans += dfs3(node.right, s, targetSum, cnt);
+        cnt.merge(s, -1, Integer::sum); // cnt[s]-- 恢复现场（撤销 cnt[s]++）
+
+        return ans;
+    }
+
 }
