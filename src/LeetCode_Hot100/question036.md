@@ -1,89 +1,72 @@
-# 394. 字符串解码
+# 347. 前 K 个高频元素
 
 **难度: 中等**
 
 ## 题目描述
-给定一个经过编码的字符串，返回它解码后的字符串。
-
-编码规则为：`k[encoded_string]`，表示其中方括号内部的 `encoded_string` 正好重复 k 次。注意 k 保证为正整数。
-
-你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
-
-此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k，例如不会出现像 `3a` 或 `2[4]` 的输入。
-
-测试用例保证输出的长度不会超过 10^5。
+给你一个整数数组 `nums` 和一个整数 `k`，请你返回其中出现频率前 `k` 高的元素。你可以按任意顺序返回答案。
 
 ---
 
 ## 示例说明
 ### 示例 1：
-**输入：** s = "3[a]2[bc]"  
-**输出：** "aaabcc"  
+**输入：** nums = [1,1,1,2,2,3], k = 2  
+**输出：** [1,2]  
 **解释：** 
-- `3[a]` 解码为 `aaa`
-- `2[bc]` 解码为 `bcbc`
-- 合并得到 `aaabcc`
+- 元素 1 出现 3 次
+- 元素 2 出现 2 次
+- 元素 3 出现 1 次
+- 前 2 个高频元素是 [1, 2]
 
 ---
 
 ### 示例 2：
-**输入：** s = "3[a2[c]]"  
-**输出：** "accaccacc"  
+**输入：** nums = [1], k = 1  
+**输出：** [1]  
 **解释：**
-- 内层 `2[c]` 解码为 `cc`
-- `a2[c]` 解码为 `acc`
-- `3[acc]` 解码为 `accaccacc`
+- 元素 1 出现 1 次
+- 前 1 个高频元素是 [1]
 
 ---
 
 ### 示例 3：
-**输入：** s = "2[abc]3[cd]ef"  
-**输出：** "abcabc cdcdcd ef"  
+**输入：** nums = [1,2,1,2,1,2,3,1,3,2], k = 2  
+**输出：** [1,2]  
 **解释：**
-- `2[abc]` 解码为 `abcabc`
-- `3[cd]` 解码为 `cdcdcd`
-- `ef` 保持不变
-
----
-
-### 示例 4：
-**输入：** s = "abc3[cd]xyz"  
-**输出：** "abccdcdcdxyz"  
-**解释：**
-- `abc` 保持不变
-- `3[cd]` 解码为 `cdcdcd`
-- `xyz` 保持不变
+- 元素 1 出现 4 次
+- 元素 2 出现 4 次
+- 元素 3 出现 2 次
+- 前 2 个高频元素是 [1, 2]
 
 ---
 
 ## 提示：
-- 1 ≤ s.length ≤ 30
-- s 由小写英文字母、数字和方括号 `[]` 组成
-- s 保证是一个 **有效的** 输入
-- s 中所有整数的取值范围为 [1, 300]
-- 输出字符串长度不会超过 10^5
+- 1 ≤ nums.length ≤ 10^5
+- -10^4 ≤ nums[i] ≤ 10^4
+- k 的取值范围是 [1, 数组中不相同的元素的个数]
+- 题目数据保证答案唯一，换句话说，数组中前 k 个高频元素的集合是唯一的
 
 ---
 
 ## 解题思路
 
 ### 核心思想
-使用栈来处理嵌套的解码操作。由于存在多层嵌套的情况，需要从内向外解码，栈可以帮助我们保存外层的信息。
+统计每个元素的出现频率，然后找出频率最高的 k 个元素。这是一个典型的 Top K 问题。
 
 ### 关键观察
-1. 遇到数字时，需要解析完整的数字（可能有多位）
-2. 遇到 `[` 时，表示开始一个新的嵌套层，需要保存当前状态
-3. 遇到 `]` 时，表示当前嵌套层结束，需要进行解码操作
-4. 遇到字母时，直接添加到当前结果中
+1. 需要先统计每个数字出现的频率，可以使用哈希表
+2. 然后需要从频率统计中找出前 k 个最大值
+3. 有多种方法可以解决：
+   - 最小堆（优先队列）：维护大小为 k 的最小堆
+   - 桶排序：由于频率最多为 n，可以使用桶来统计
+   - 快速选择算法
 
-### 算法步骤
-1. 使用两个栈：一个存储数字（重复次数），一个存储字符串
-2. 遍历输入字符串的每个字符：
-   - 如果是数字：构建完整的数字（处理多位数字）
-   - 如果是字母：添加到当前字符串中
-   - 如果是 `[`：将当前数字和字符串分别入栈，然后重置
-   - 如果是 `]`：弹出栈顶的数字和字符串，将当前字符串重复指定次数后与弹出的字符串拼接
-3. 返回最终解码的字符串
+### 算法步骤（最小堆方法）
+1. 使用哈希表统计每个数字的出现频率
+2. 维护一个大小为 k 的最小堆（优先队列）
+3. 遍历频率哈希表：
+   - 将元素和频率放入堆中
+   - 如果堆大小超过 k，弹出频率最小的元素
+4. 堆中剩下的就是前 k 个高频元素
 
 ---
 
@@ -92,30 +75,48 @@
 ### Python 代码实现
 
 ```python
+from typing import List
+import heapq
+from collections import Counter
+
 class Solution:
-    def decodeString(self, s: str) -> str:
-        stack = []  # 存储(数字, 字符串)的元组
-        current_str = ""  # 当前字符串
-        current_num = 0   # 当前数字
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # 统计频率
+        freq = Counter(nums)
         
-        for char in s:
-            if char.isdigit():
-                # 处理多位数字
-                current_num = current_num * 10 + int(char)
-            elif char == '[':
-                # 遇到左括号，将当前状态入栈
-                stack.append((current_num, current_str))
-                current_num = 0
-                current_str = ""
-            elif char == ']':
-                # 遇到右括号，进行解码
-                num, prev_str = stack.pop()
-                current_str = prev_str + current_str * num
-            else:
-                # 字母，直接添加到当前字符串
-                current_str += char
+        # 使用最小堆
+        heap = []
+        for num, count in freq.items():
+            heapq.heappush(heap, (count, num))
+            # 如果堆的大小超过k，弹出频率最小的元素
+            if len(heap) > k:
+                heapq.heappop(heap)
         
-        return current_str
+        # 提取结果
+        result = [num for count, num in heap]
+        return result
+    
+    # 方法二：使用桶排序
+    def topKFrequent_bucket(self, nums: List[int], k: int) -> List[int]:
+        # 统计频率
+        freq = Counter(nums)
+        
+        # 创建桶，索引表示频率，值是该频率的所有元素
+        n = len(nums)
+        bucket = [[] for _ in range(n + 1)]
+        
+        for num, count in freq.items():
+            bucket[count].append(num)
+        
+        # 从高频率到低频率收集结果
+        result = []
+        for i in range(n, 0, -1):
+            if bucket[i]:
+                result.extend(bucket[i])
+            if len(result) >= k:
+                break
+        
+        return result[:k]
 ```
 
 ---
@@ -123,40 +124,68 @@ class Solution:
 ### Java 代码实现
 
 ```java
-import java.util.Stack;
+import java.util.*;
 
 class Solution {
-    public String decodeString(String s) {
-        Stack<Integer> numStack = new Stack<>();
-        Stack<StringBuilder> strStack = new Stack<>();
-        StringBuilder currentStr = new StringBuilder();
-        int currentNum = 0;
+    // 方法一：最小堆
+    public int[] topKFrequent(int[] nums, int k) {
+        // 统计频率
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
         
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                // 处理多位数字
-                currentNum = currentNum * 10 + (c - '0');
-            } else if (c == '[') {
-                // 遇到左括号，将当前状态入栈
-                numStack.push(currentNum);
-                strStack.push(currentStr);
-                currentNum = 0;
-                currentStr = new StringBuilder();
-            } else if (c == ']') {
-                // 遇到右括号，进行解码
-                int repeatTimes = numStack.pop();
-                StringBuilder temp = currentStr;
-                currentStr = strStack.pop();
-                for (int i = 0; i < repeatTimes; i++) {
-                    currentStr.append(temp);
-                }
-            } else {
-                // 字母，直接添加到当前字符串
-                currentStr.append(c);
+        // 使用最小堆（按频率排序）
+        PriorityQueue<Map.Entry<Integer, Integer>> heap = 
+            new PriorityQueue<>(Comparator.comparingInt(Map.Entry::getValue));
+        
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            heap.offer(entry);
+            if (heap.size() > k) {
+                heap.poll();
             }
         }
         
-        return currentStr.toString();
+        // 提取结果
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = heap.poll().getKey();
+        }
+        return result;
+    }
+    
+    // 方法二：桶排序
+    public int[] topKFrequentBucket(int[] nums, int k) {
+        // 统计频率
+        Map<Integer, Integer> freq = new HashMap<>();
+        for (int num : nums) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+        
+        // 创建桶
+        List<Integer>[] bucket = new List[nums.length + 1];
+        for (int i = 0; i < bucket.length; i++) {
+            bucket[i] = new ArrayList<>();
+        }
+        
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            bucket[entry.getValue()].add(entry.getKey());
+        }
+        
+        // 从高频率到低频率收集结果
+        List<Integer> resultList = new ArrayList<>();
+        for (int i = bucket.length - 1; i >= 0 && resultList.size() < k; i--) {
+            if (!bucket[i].isEmpty()) {
+                resultList.addAll(bucket[i]);
+            }
+        }
+        
+        // 转换为数组
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = resultList.get(i);
+        }
+        return result;
     }
 }
 ```
@@ -169,84 +198,208 @@ class Solution {
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
-char* decodeString(char* s) {
-    // 分配足够大的空间
-    char* result = (char*)malloc(100000 * sizeof(char));
-    result[0] = '\0';
+typedef struct {
+    int value;
+    int count;
+} Element;
+
+// 哈希表节点
+typedef struct HashNode {
+    int key;
+    int count;
+    struct HashNode* next;
+} HashNode;
+
+// 哈希表
+typedef struct {
+    HashNode** table;
+    int size;
+} HashMap;
+
+// 创建哈希表
+HashMap* createHashMap(int size) {
+    HashMap* map = (HashMap*)malloc(sizeof(HashMap));
+    map->size = size;
+    map->table = (HashNode**)calloc(size, sizeof(HashNode*));
+    return map;
+}
+
+// 哈希函数
+int hash(int key, int size) {
+    return abs(key) % size;
+}
+
+// 插入或更新哈希表
+void put(HashMap* map, int key) {
+    int index = hash(key, map->size);
+    HashNode* node = map->table[index];
     
-    // 使用数组模拟栈
-    int numStack[100];
-    char* strStack[100];
-    int top = -1;
+    // 查找是否已存在
+    while (node != NULL) {
+        if (node->key == key) {
+            node->count++;
+            return;
+        }
+        node = node->next;
+    }
     
-    int currentNum = 0;
-    char* currentStr = (char*)malloc(100000 * sizeof(char));
-    currentStr[0] = '\0';
-    
-    for (int i = 0; s[i] != '\0'; i++) {
-        if (isdigit(s[i])) {
-            // 处理多位数字
-            currentNum = currentNum * 10 + (s[i] - '0');
-        } else if (s[i] == '[') {
-            // 遇到左括号，将当前状态入栈
-            numStack[++top] = currentNum;
-            strStack[top] = strdup(currentStr);
-            currentNum = 0;
-            currentStr[0] = '\0';
-        } else if (s[i] == ']') {
-            // 遇到右括号，进行解码
-            int repeatTimes = numStack[top];
-            char* prevStr = strStack[top--];
-            
-            char* temp = strdup(currentStr);
-            strcpy(currentStr, prevStr);
-            
-            for (int j = 0; j < repeatTimes; j++) {
-                strcat(currentStr, temp);
-            }
-            
-            free(prevStr);
-            free(temp);
-        } else {
-            // 字母，直接添加到当前字符串
-            int len = strlen(currentStr);
-            currentStr[len] = s[i];
-            currentStr[len + 1] = '\0';
+    // 不存在，创建新节点
+    HashNode* newNode = (HashNode*)malloc(sizeof(HashNode));
+    newNode->key = key;
+    newNode->count = 1;
+    newNode->next = map->table[index];
+    map->table[index] = newNode;
+}
+
+// 获取所有元素及其频率
+Element* getAllElements(HashMap* map, int* total) {
+    // 先统计元素数量
+    int count = 0;
+    for (int i = 0; i < map->size; i++) {
+        HashNode* node = map->table[i];
+        while (node != NULL) {
+            count++;
+            node = node->next;
         }
     }
     
-    strcpy(result, currentStr);
-    free(currentStr);
+    // 创建数组
+    Element* elements = (Element*)malloc(count * sizeof(Element));
+    int index = 0;
+    for (int i = 0; i < map->size; i++) {
+        HashNode* node = map->table[i];
+        while (node != NULL) {
+            elements[index].value = node->key;
+            elements[index].count = node->count;
+            index++;
+            node = node->next;
+        }
+    }
+    
+    *total = count;
+    return elements;
+}
+
+// 快速选择分区函数
+int partition(Element* arr, int left, int right) {
+    int pivot = arr[right].count;
+    int i = left - 1;
+    
+    for (int j = left; j < right; j++) {
+        if (arr[j].count > pivot) {  // 降序排列
+            i++;
+            Element temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    
+    Element temp = arr[i + 1];
+    arr[i + 1] = arr[right];
+    arr[right] = temp;
+    
+    return i + 1;
+}
+
+// 快速选择算法
+void quickSelect(Element* arr, int left, int right, int k) {
+    if (left < right) {
+        int pivotIndex = partition(arr, left, right);
+        
+        if (pivotIndex == k - 1) {
+            return;
+        } else if (pivotIndex > k - 1) {
+            quickSelect(arr, left, pivotIndex - 1, k);
+        } else {
+            quickSelect(arr, pivotIndex + 1, right, k);
+        }
+    }
+}
+
+// 主函数
+int* topKFrequent(int* nums, int numsSize, int k, int* returnSize) {
+    // 创建哈希表统计频率
+    HashMap* map = createHashMap(1009);  // 质数作为哈希表大小
+    
+    for (int i = 0; i < numsSize; i++) {
+        put(map, nums[i]);
+    }
+    
+    // 获取所有元素及其频率
+    int totalElements;
+    Element* elements = getAllElements(map, &totalElements);
+    
+    // 使用快速选择找到前k个高频元素
+    quickSelect(elements, 0, totalElements - 1, k);
+    
+    // 创建结果数组
+    int* result = (int*)malloc(k * sizeof(int));
+    for (int i = 0; i < k; i++) {
+        result[i] = elements[i].value;
+    }
+    
+    *returnSize = k;
+    
+    // 释放内存
+    free(elements);
+    for (int i = 0; i < map->size; i++) {
+        HashNode* node = map->table[i];
+        while (node != NULL) {
+            HashNode* temp = node;
+            node = node->next;
+            free(temp);
+        }
+    }
+    free(map->table);
+    free(map);
+    
     return result;
 }
 
 // 测试代码
 int main() {
     // 测试示例1
-    char s1[] = "3[a]2[bc]";
-    char* result1 = decodeString(s1);
-    printf("测试1:\n输入: %s\n输出: %s\n\n", s1, result1);
+    int nums1[] = {1, 1, 1, 2, 2, 3};
+    int k1 = 2;
+    int returnSize1;
+    int* result1 = topKFrequent(nums1, 6, k1, &returnSize1);
+    
+    printf("测试1:\n输入: [1,1,1,2,2,3], k=2\n输出: [");
+    for (int i = 0; i < returnSize1; i++) {
+        printf("%d", result1[i]);
+        if (i < returnSize1 - 1) printf(", ");
+    }
+    printf("]\n\n");
     free(result1);
     
     // 测试示例2
-    char s2[] = "3[a2[c]]";
-    char* result2 = decodeString(s2);
-    printf("测试2:\n输入: %s\n输出: %s\n\n", s2, result2);
+    int nums2[] = {1};
+    int k2 = 1;
+    int returnSize2;
+    int* result2 = topKFrequent(nums2, 1, k2, &returnSize2);
+    
+    printf("测试2:\n输入: [1], k=1\n输出: [");
+    for (int i = 0; i < returnSize2; i++) {
+        printf("%d", result2[i]);
+        if (i < returnSize2 - 1) printf(", ");
+    }
+    printf("]\n\n");
     free(result2);
     
     // 测试示例3
-    char s3[] = "2[abc]3[cd]ef";
-    char* result3 = decodeString(s3);
-    printf("测试3:\n输入: %s\n输出: %s\n\n", s3, result3);
-    free(result3);
+    int nums3[] = {1, 2, 1, 2, 1, 2, 3, 1, 3, 2};
+    int k3 = 2;
+    int returnSize3;
+    int* result3 = topKFrequent(nums3, 10, k3, &returnSize3);
     
-    // 测试示例4
-    char s4[] = "abc3[cd]xyz";
-    char* result4 = decodeString(s4);
-    printf("测试4:\n输入: %s\n输出: %s\n", s4, result4);
-    free(result4);
+    printf("测试3:\n输入: [1,2,1,2,1,2,3,1,3,2], k=2\n输出: [");
+    for (int i = 0; i < returnSize3; i++) {
+        printf("%d", result3[i]);
+        if (i < returnSize3 - 1) printf(", ");
+    }
+    printf("]\n");
+    free(result3);
     
     return 0;
 }
