@@ -11,12 +11,12 @@ public class question032 {
     public static void main(String[] args) {
         int[] nums = {1 ,5, 11 ,5};
         int[] nums2 = {1, 2, 3, 5};
-        System.out.println(f416(nums));
-        System.out.println(f416(nums2));
+        System.out.println(canPartition(nums));
+        System.out.println(canPartition(nums2));
     }
 
     // 方法 1: 转化为 0-1 背包问题, 在使用 dp
-    public static boolean f416(int[] nums) {
+    public static boolean canPartition(int[] nums) {
 
         int sum = 0;
         for (int num : nums) {
