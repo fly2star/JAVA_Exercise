@@ -8,6 +8,15 @@ import java.util.Map;
  * @version 1.0
  * create 2026-01-26-22:01
  **/
+/*
+437. 路径总和 III
+
+给定一个二叉树的根节点 `root`，和一个整数 `targetSum`，求该二叉树里节点值之和等于 `targetSum` 的路径的数目。
+
+ </b>路径</b> 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）
+
+*/
+
 public class question031 {
     public static void main(String[] args) {
         TreeNode root1 = new TreeNode(10);

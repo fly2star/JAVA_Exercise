@@ -9,6 +9,14 @@ import java.util.List;
  * @version 1.0
  * create 2026-01-26-21:24
  **/
+/*
+438. 找到字符串中所有字母异位词
+
+给定两个字符串 `s` 和 `p`，找到 `s` 中所有 `p` 的 **异位词** 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
+
+异位词：两个字符串包含相同的字符，且每个字符出现次数相同（即字母重排后相等）。
+
+*/
 public class question030 {
     public static void main(String[] args) {
         String s = "cbaebabacd", p = "abc";
