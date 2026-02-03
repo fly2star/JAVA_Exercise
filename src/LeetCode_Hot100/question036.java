@@ -10,7 +10,7 @@ public class question036 {
         
     }
 
-    public static int f347(int[] nums, int K) {
+    public static int topKFrequent(int[] nums, int K) {
         
         return 0;
     }
