@@ -19,7 +19,7 @@ public class question036 {
         }
     }
 
-    public static int[] topKFrequent(int[] nums, int K) {
+    public static int[] topKFrequent(int[] nums, int k) {
         // 使用 Map 统计频率
         Map<Integer, Integer> freqMap = new HashMap<>();
         for (int num : nums) {
@@ -35,14 +35,14 @@ public class question036 {
         PriorityQueue<Map.Entry<Integer, Integer>> heap = new PriorityQueue<>((a , b) -> a.getValue() - b.getValue());
         for (Map.Entry<Integer,Integer> entry : freqMap.entrySet()) {
             heap.offer(entry);
-            if (heap.size() > K) {
+            if (heap.size() > k) {
                 heap.poll();
             }
         }
 
         // 提取结果
-        int[] result = new int[K];
-        for (int i = 0; i < K; i++) {
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
             result[i] = heap.poll().getKey();
         }
 
