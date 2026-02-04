@@ -11,10 +11,35 @@ package LeetCode_Hot100;
 */
 public class question041 {
     public static void main(String[] args) {
-        
+        int prices[] = {1, 2, 3, 0, 2};
+        System.out.println(maxProfit(prices));
     }
 
+    // 方法 1 : 动态规划
     public static int maxProfit(int[] prices) {
-        return 0;
+        int n = prices.length;
+        if (prices == null || n < 2) {
+            return 0;
+        }
+
+        int[] hold = new int[n];    // 持有股票
+        int[] cold = new int[n];    // 不持有, 处于冷却期
+        int[] free = new int[n];    // 不持有, 不处于冷却期
+
+        // 初始化
+        hold[0] = -prices[0];   // 第一天买入
+        cold[0] = 0;            // 第一天不可能买入
+        free[0] = 0;            // 第一天不持有
+
+        for (int i = 1; i < n; i++) {
+            // 状态转移
+            hold[i] = Math.max(hold[i - 1], free[i - 1] - prices[i]);
+            cold[i] = hold[i - 1] + prices[i];
+            free[i] = Math.max(free[i - 1], cold[i - 1]);
+        }
+
+        // 最后一天不能持有股票
+        return Math.max(cold[n - 1], free[n - 1]);
+
     }
 }
