@@ -95,7 +95,7 @@ public class question011 {
         int nc = grid[0].length;    // 列数
 
         // 创建并查集，自动统计初始化陆地数量
-        UnionFind uf = new UnionFind(grid);
+        UnionFind011 uf = new UnionFind011(grid);
         // 遍历每个格子
         for (int i = 0; i < nr; i++) {
             for (int j = 0; j < nc; j++) {
@@ -150,13 +150,13 @@ public class question011 {
 
 
 
-class UnionFind {
+class UnionFind011 {
     int count;      // 连通分量个数
     int[] parent;   // parent[i] 表示第 i 个元素所指向的父节点
     int[] rank;     // rank[i] 表示以 i 为根的集合所表示的树的高度
 
     // 构造函数: 根据 grid 初始化并查集
-    public UnionFind(char[][] grid) {
+    public UnionFind011(char[][] grid) {
         count = 0;
         int m = grid.length;
         int n = grid[0].length;

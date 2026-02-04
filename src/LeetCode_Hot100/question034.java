@@ -34,8 +34,10 @@ public class question034 {
         qu.add(List.of("a", "e"));
         qu.add(List.of("a", "a"));
         qu.add(List.of("x", "x"));
-        double[] results = calcEquation(eq, values, qu);
-        System.out.println(Arrays.toString(results));
+        double[] results = calcEquation2(eq, values, qu);
+        for (double d : results) {
+            System.out.print(d + " ");
+        }
 
     }
 
@@ -108,7 +110,7 @@ public class question034 {
         }
 
         // 初始化并查集
-        UnionFind uf = new UnionFind(variableToId.size());
+        UnionFind034 uf = new UnionFind034(variableToId.size());
         for (int i = 0; i < equations.size(); i++) {
             List<String> equation = equations.get(i);
             uf.merge(variableToId.get(equation.get(1)), variableToId.get(equation.get(0)), values[i]);
@@ -137,12 +139,12 @@ public class question034 {
 }
 
 
-
-class UnionFind {
+// 与 question11 中的并查集重名, 已修改
+class UnionFind034 {
     private final int[] fa; // 代表元
     public final double[] mul; // x 的值 * mul[x] = x 的代表元的值
 
-    public UnionFind(int n) {
+    public UnionFind034(int n) {
         fa = new int[n];
         // 一开始有 n 个集合 {0}, {1}, ..., {n-1}
         // 集合 i 的代表元是自己，自己 * 1 = 自己
