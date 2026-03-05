@@ -16,7 +16,9 @@ import java.util.Map;
 */
 public class question052 {
     public static void main(String[] args) {
-        
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        List<List<String>> res = groupAnagrams(strs);
+        System.out.println(res);
     }
 
     private static List<List<String>> groupAnagrams(String[] strs) {

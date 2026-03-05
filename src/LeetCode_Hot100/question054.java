@@ -10,10 +10,12 @@ import java.util.List;
 */
 public class question054 {
     public static void main(String[] args) {
-        
+        int[] nums = new int[]{1, 2, 3};
+        List<List<Integer>> res = permute(nums);
+        System.out.println(res);
     }
 
-    public List<List<Integer>> permute(int[] nums) {
+    public static List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         List<Integer> path = new ArrayList<>();
         boolean[] used = new boolean[nums.length];
@@ -22,7 +24,7 @@ public class question054 {
         return result;
     }
 
-    private void backtrack(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> result) {
+    private static void backtrack(int[] nums, boolean[] used, List<Integer> path, List<List<Integer>> result) {
         // 如果当前路径长度等于数组长度，说明找到了一个完整排列
         if (path.size() == nums.length) {
             result.add(new ArrayList<>(path));
