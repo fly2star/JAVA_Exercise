@@ -120,17 +120,19 @@ class Solution {
             // 判断左半部分是否有序
             if (nums[left] <= nums[mid]) {
                 // 左半部分有序
+                // 判断 target 是否在左边的有序区间内
                 if (nums[left] <= target && target < nums[mid]) {
-                    right = mid - 1;
+                    right = mid - 1;    // 在左边
                 } else {
-                    left = mid + 1;
+                    left = mid + 1;     // 去右边找
                 }
             } else {
                 // 右半部分有序
+                // 判断 target 是否在右边的有序区间内
                 if (nums[mid] < target && target <= nums[right]) {
-                    left = mid + 1;
+                    left = mid + 1;     // 在右边
                 } else {
-                    right = mid - 1;
+                    right = mid - 1;    // 去左边找
                 }
             }
         }
