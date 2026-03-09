@@ -19,6 +19,37 @@ package DailyQuestion.Fifteenth;
 */
 public class question01 {
     public static void main(String[] args) {
-        
+        System.out.println(numberOfStableArrays(3, 3, 2));
     }
+
+
+    public static int numberOfStableArrays(int zero, int one, int limit) {
+        int MOD = 1_000_000_007;
+        // dp[i][j][0] 表示 i个0, j个1, 且最后一个是0
+        // dp[i][j][1] 表示 i个0, j个1, 且最后一个是1
+        long[][][] dp = new long[zero + 1][one + 1][2];
+
+        // 初始化：只放0或只放1的情况
+        for (int i = 1; i <= Math.min(zero, limit); i++) {
+            dp[i][0][0] = 1;
+        }
+        for (int j = 1; j <= Math.min(one, limit); j++) {
+            dp[0][j][1] = 1;
+        }
+
+        for (int i = 1; i <= zero; i++) {
+            for (int j = 1; j <= one; j++) {
+                // 填 dp[i][j][0]：最后一段是连续的 k 个 0，前一个是 1
+                for (int k = 1; k <= Math.min(i, limit); k++) {
+                    dp[i][j][0] = (dp[i][j][0] + dp[i - k][j][1]) % MOD;
+                }
+                // 填 dp[i][j][0]：最后一段是连续的 k 个 0，前一个是 1
+                for (int k = 1; k <= Math.min(j, limit); k++) {
+                    dp[i][j][1] = (dp[i][j][1] + dp[i][j - k][0]) % MOD;
+                }
+            }
+        }
+        return (int)((dp[zero][one][0] + dp[zero][one][1]) % MOD);
+    }
+
 }
