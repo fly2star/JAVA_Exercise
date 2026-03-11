@@ -5,7 +5,7 @@
 ## 题目描述
 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按任意顺序返回。
 
-1[1752723054-mfIHZs-image](../../readFile/image/1752723054-mfIHZs-image.png)
+![1752723054-mfIHZs-image](../../readFile/image/1752723054-mfIHZs-image.png)
 
 给出数字到字母的映射如下（与电话按键相同）：
 - 2: abc
