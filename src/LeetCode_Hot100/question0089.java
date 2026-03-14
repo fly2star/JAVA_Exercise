@@ -1,5 +1,8 @@
 package LeetCode_Hot100;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /*
 1. 两数之和
 
@@ -17,5 +20,54 @@ package LeetCode_Hot100;
     -- 只会存在一个有效答案
 */
 public class question0089 {
+    public static void main(String[] args) {
+        int[] nums = new int[]{2,7,11,15};
+        int target = 9;
+
+        question0089 sl89 = new question0089();
+        int[] res = sl89.twoSum(nums, target);
+        for (int i : res) {
+            System.out.print(i + " ");
+        }
+    }
+
+    // hand
+    public int[] twoSum(int[] nums, int target) {
+        int[] res = new int[2];
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+
+        for (int key : map.keySet()) {
+            if (map.containsKey(target - key)) {
+                res[0] = key;
+                res[1] = map.get(target - key);
+                break;
+            }
+        }
+        return res;
+    }
+
+    // ai
+    public int[] twoSum2(int[] nums, int target) {
+        // 创建哈希表，存储数字和对应的下标
+        Map<Integer, Integer> numMap = new HashMap<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            // 检查差值是否在哈希表中
+            if (numMap.containsKey(complement)) {
+                return new int[]{numMap.get(complement), i};
+            }
+            // 将当前数字存入哈希表
+            numMap.put(nums[i], i);
+        }
+        
+        // 根据题意，不会执行到这里
+        return new int[0];
+    }
+
     
 }
