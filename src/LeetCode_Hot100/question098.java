@@ -17,7 +17,13 @@ import java.util.List;
 */
 public class question098 {
     public static void main(String[] args) {
-        
+        int[][] intervals = new int[][]{{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+
+        question098 sl98 = new question098();
+        int[][] result = sl98.merge(intervals);
+        for (int[] arr : result) {
+            System.out.println(arr[0] + " " + arr[1]);
+        }
     }
 
     public int[][] merge(int[][] intervals) {
