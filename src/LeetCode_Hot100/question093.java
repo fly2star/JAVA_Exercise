@@ -16,7 +16,11 @@ package LeetCode_Hot100;
 */
 public class question093 {
     public static void main(String[] args) {
-        
+        String word1 = "horse";
+        String word2 = "ros";
+
+        question093 sl93 = new question093();
+        System.out.println(sl93.minDistance(word1, word2));
     }
 
     // 方法1: 动态规划
