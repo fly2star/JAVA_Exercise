@@ -31,10 +31,23 @@ public class question090 {
         backTrack(nums, 0, path, res);
         return res;
     }
-
+    
+    /*
+                      []
+            /         |           \
+            [1]        [2]        [3]
+          /    \        |
+        [1,2]  [1,3]   [2,3]
+         |
+      [1,2,3]
+    
+    */
     private void backTrack(int[] nums, int start, List<Integer> path, List<List<Integer>> res){
         // 将当前路劲加入结果集
         res.add(new ArrayList<>(path));
+
+        // 隐式的结束条件, 当 `start == nums.length` 时,
+        // for 循环终止, 递归终止
 
         // 从 start 开始遍历，避免重复
         for (int i = start; i < nums.length; i++) {
