@@ -20,7 +20,11 @@ import java.util.Map;
 */
 public class question91 {
     public static void main(String[] args) {
-        
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+
+        question91 sl91 = new question91();
+        System.out.println(sl91.minWindow(s, t));
     }
 
     // 方法1: 滑动窗口
@@ -41,19 +45,23 @@ public class question91 {
         int left = 0, right = 0;
         
         // 记录最小窗口的起始位置和长度
-        int minLen = Integer.MAX_VALUE;
         int start = 0;
+        int minLen = Integer.MAX_VALUE;
 
         while (right < s.length()) {
             // 将右指针字符加入窗口
             char c = s.charAt(right);
+
+            // --- 扩张阶段: 更新窗口数据
             if (need.containsKey(c)) {
                 window.put(c, window.getOrDefault(c, 0) + 1);
+                // 如果该字符在窗口中的数量达到了目标数量
                 if (window.get(c).equals(need.get(c))) {
                     required--;
                 }
             }
             
+            // --- 收缩阶段: 判断左侧窗口是否要收缩
             // 当窗口满足条件时，尝试收缩左边界
             while (required == 0 && left <= right) {
                 // 更新最小窗口
