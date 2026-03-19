@@ -31,6 +31,14 @@ public class question053 {
             }
             System.out.println();
         }
+        System.out.println("======================");
+        rotate3(matrix);
+        for (int[] is : matrix) {
+            for (int x : is) {
+                System.out.print(x + " ");
+            }
+            System.out.println();
+        }
     }
 
     // 方法1: 借用一个数组来存储元素
@@ -82,7 +90,7 @@ public class question053 {
         int n = matrix.length;
 
         for (int i = 0; i < n / 2; i++) {
-            for (int j = i; j < n - 1 - j; j++) {
+            for (int j = i; j < n - 1 - i; j++) {
                 // 保存左上角元素
                 int temp = matrix[i][j];
                 // 左上角 = 左下角
