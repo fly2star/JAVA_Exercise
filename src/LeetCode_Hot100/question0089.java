@@ -21,7 +21,8 @@ import java.util.Map;
 */
 public class question0089 {
     public static void main(String[] args) {
-        int[] nums = new int[]{2,7,11,15};
+        // int[] nums = new int[]{2,7,11,15};
+        int[] nums = new int[]{3,3};
         int target = 9;
 
         question0089 sl89 = new question0089();
@@ -32,6 +33,7 @@ public class question0089 {
     }
 
     // hand
+    // [3,3] target=6, 类似的例子重复数
     public int[] twoSum(int[] nums, int target) {
         int[] res = new int[2];
 
@@ -42,7 +44,7 @@ public class question0089 {
 
         for (int key : map.keySet()) {
             if (map.containsKey(target - key)) {
-                res[0] = key;
+                res[0] = map.get(key);
                 res[1] = map.get(target - key);
                 break;
             }
