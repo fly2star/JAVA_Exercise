@@ -1,5 +1,7 @@
 package LeetCode_Hot100;
 
+import java.util.Stack;
+
 /*
 42. 接雨水
 
@@ -8,7 +10,8 @@ package LeetCode_Hot100;
 */
 public class question55 {
     public static void main(String[] args) {
-        
+        int[] height = new int[]{0,1,0,2,1,0,1,3,2,1,2,1};
+        System.out.println(trapMonotonicStack(height));
     }
 
     // 方法1: 动态规划
@@ -86,5 +89,27 @@ public class question55 {
             }
         }
         return res;
+    }
+
+    // 方法3: 单调栈
+    public static int trapMonotonicStack(int[] height) {
+        Stack<Integer> stack = new Stack<>();
+        int ans = 0;
+
+        for (int i = 0; i < height.length; i++) {
+            while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+                int bottom = stack.pop();
+                if (stack.isEmpty()) {
+                    break;
+                }
+                int left = stack.peek();
+                int width = i - left - 1;
+                int heightDiff = Math.min(height[left], height[i]) - height[bottom];
+                ans += width * heightDiff;
+            }
+            stack.push(i);
+        }
+
+        return ans;
     }
 }
