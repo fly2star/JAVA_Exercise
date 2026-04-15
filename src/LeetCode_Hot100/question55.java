@@ -92,17 +92,34 @@ public class question55 {
     }
 
     // 方法3: 单调栈
+    /**
+     * 1. 维护一个单调递减栈（栈底到栈顶递减），存储柱子的下标
+     * 2. 遍历每个柱子：
+     *      - 如果当前柱子高度大于栈顶柱子高度，说明形成了凹槽
+     *      - 弹出栈顶作为底部，新的栈顶作为左边界，当前柱子作为右边界
+     *      - 计算宽度和高度差，累加雨水量
+     *      - 重复直到栈空或栈顶高度 >= 当前高度
+     *      - 将当前柱子下标入栈
+    */
     public static int trapMonotonicStack(int[] height) {
         Stack<Integer> stack = new Stack<>();
         int ans = 0;
 
         for (int i = 0; i < height.length; i++) {
+            // 遇到一根比栈顶更高的柱子时, 说明找到"右墙"
             while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+                // 确定"底座"
                 int bottom = stack.pop();
+                
+                // 只有底座和右墙, 没有左墙, 接不住水
                 if (stack.isEmpty()) {
                     break;
                 }
+
+                // 确立"左墙"
                 int left = stack.peek();
+
+                // 计算水面积
                 int width = i - left - 1;
                 int heightDiff = Math.min(height[left], height[i]) - height[bottom];
                 ans += width * heightDiff;
