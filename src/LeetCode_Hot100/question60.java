@@ -16,10 +16,20 @@ import java.util.Stack;
 public class question60 {
     public static void main(String[] args) {
         String s = ")()())";
-        System.out.println(longestValidParentheses2(s));
+        System.out.println(longestValidParentheses(s));
     }
 
     // 方法1: 单调栈
+    /*
+        1. 初始化一个栈，压入 -1 作为起始标记
+        2. 遍历每个字符：
+            - 如果当前字符是 '('，将其下标压入栈
+            - 如果是 ')'：
+                - 弹出栈顶元素（表示匹配一个左括号）
+                - 如果栈为空，说明当前右括号无法匹配，将当前下标压入栈作为新的起始标记
+                - 如果栈不为空，计算当前有效长度 = 当前下标 - 栈顶元素，更新最大值
+        3. 返回最大长度
+    */
     public static int longestValidParentheses(String s){
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
@@ -30,7 +40,8 @@ public class question60 {
                 stack.push(i);
             } else {
                 stack.pop();
-                if (!stack.isEmpty()) {
+                // 栈为空, 表示栈底的 -1 也弹出了
+                if (stack.isEmpty()) {
                     stack.push(i);
                 } else {
                     maxLen = Math.max(maxLen, i - stack.peek());

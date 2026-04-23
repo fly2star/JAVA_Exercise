@@ -42,6 +42,8 @@ public class question71 {
         // 填充 DP 表
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
+                // dp 的 0 表示空, 而 s 和 p 的 0 表示第一个字符
+                // 二者之间相差一个 
                 char sc = s.charAt(i - 1);
                 char pc = p.charAt(j - 1);
 
@@ -55,6 +57,7 @@ public class question71 {
                     dp[i][j] = dp[i][j - 2];
 
                     // 匹配多次：如果前一个模式字符与当前字符匹配
+                    // for 循环从前向后遍历, 每次只需要考虑前一个字符
                     char prev = p.charAt(j-2);
                     if (prev == '.' || prev == sc) {
                         dp[i][j] = dp[i][j] || dp[i - 1][j];

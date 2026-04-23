@@ -21,6 +21,7 @@ public class question88 {
         System.out.println(sl88.largestRectangleArea(heights));
     }
 
+    // 方法1: 单调栈
     public int largestRectangleArea(int[] heights) {
         int n = heights.length;
         // 创建一个新数组, 末尾添加一个 0 作为哨兵
