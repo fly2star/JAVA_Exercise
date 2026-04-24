@@ -45,4 +45,44 @@ public class question88 {
         
         return maxArea;
     }
+
+
+    // 单调栈, 首尾哨兵
+    public int largestRectangleArea2(int[] heights) {
+        int n = heights.length;
+        // 构建带有首尾哨兵的新数组
+        int[] newHeights = new int[n + 2];
+        // 首尾默认为 0，把原数组拷贝到中间
+        System.arraycopy(heights, 0, newHeights, 1, n);
+
+        int maxArea = 0;
+        Stack<Integer> stack = new Stack<>();
+
+        // 遍历新数组
+        for (int i = 0; i < newHeights.length; i++) {
+            // 当遇到比栈顶元素矮的柱子时，触发计算
+            while (!stack.isEmpty() && newHeights[i] < newHeights[stack.peek()]) {
+                // 此时，stack.peek() 就是我们要计算的那根柱子 (作为高度)
+                int midIndex = stack.pop();
+                int h = newHeights[midIndex];
+
+                // 弹出后, 新的栈顶就是左边界. 当前的 i 就是右边界.
+                int leftIndex = stack.peek();
+                int rightIndex = i;
+
+                // 宽度 = 右边界 - 左边界 - 1
+                int w = rightIndex - leftIndex - 1;
+
+                // 更新最大面积
+                maxArea = Math.max(maxArea, h * w);
+                
+            }
+
+            // 无论如何, 当前元素的索引进栈
+            stack.push(i);
+        }
+
+        return maxArea;
+    }
+
 }
